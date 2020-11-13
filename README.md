@@ -1,0 +1,1 @@
+# Macrobase Diff minimal implementation
