@@ -28,3 +28,22 @@ class DiffQuery:
         elif self.op == '<=':    
             return df[df[self.column] <= self.value]
         raise ValueError("Incorrect operator")
+
+    def row_matches(self, row):
+        if self.op == '>':    
+            return row[self.column] > self.value
+        elif self.op == '<':    
+            return row[self.column] < self.value
+        elif self.op == '=':    
+            return row[self.column] == self.value
+        elif self.op == '>=':    
+            return row[self.column] >= self.value
+        elif self.op == '<=':    
+            return row[self.column] <= self.value
+        raise ValueError("Incorrect operator")
+
+    def mark_groups(self, df: DataFrame):
+        """Add column 'outlier 'to df telling outliers from inliers based on a query."""
+        def fn(row):
+            return 'outlier' if self.row_matches(row) else 'inlier'
+        df['outlier'] = df.apply(fn, axis=1)
