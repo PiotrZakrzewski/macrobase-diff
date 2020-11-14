@@ -29,6 +29,13 @@ def df_basic(int_column, float_column, cat_col_all_same, outlier_col):
     })
 
 @pytest.fixture
+def df_attr_basic():
+    return DataFrame({
+        'attr1': ['a', 'b'],
+        'attr2': ['a', 'b'],
+    })
+
+@pytest.fixture
 def df_outliers(int_column, float_column, cat_col_all_same, outlier_col):
     outlier_col[9] = "outlier"
     float_column[9] = 999.8
