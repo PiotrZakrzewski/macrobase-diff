@@ -16,8 +16,12 @@ def risk_ratio(attr_combination: dict, df) -> float:
     ai = len(in_with_attr.index)
     b0 = len(outliers.index) - a0
     bi = len(inliers.index) - ai
-    top = a0 / (a0 + ai)
-    denom = b0 / (b0 + bi)
+    top_d = (a0 + ai)
+    denom_d = (b0 + bi)
+    if top_d == 0 or denom_d == 0:
+        return 0
+    top = a0 / top_d
+    denom = b0 / denom_d
     if denom < 0.01:
         return 0.0
     return top / denom

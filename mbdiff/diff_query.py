@@ -10,7 +10,10 @@ class DiffQuery:
             raise ValueError(f"Operator must be one of {OPS}")
         self.column = column
         self.op = op
-        self.value = value
+        if op != '=':
+            self.value = float(value)
+        else:
+            self.value = value
     
     def __str__(self):
         return f"{self.column} {self.op} {self.value}"
@@ -35,7 +38,7 @@ class DiffQuery:
         elif self.op == '<':    
             return row[self.column] < self.value
         elif self.op == '=':    
-            return row[self.column] == self.value
+            return str(row[self.column]) == str(self.value)
         elif self.op == '>=':    
             return row[self.column] >= self.value
         elif self.op == '<=':    
