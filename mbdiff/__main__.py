@@ -14,6 +14,7 @@ def main():
     query = DiffQuery(metric, op, value)
     explanations= diff_file(path, query, max_order, min_risk, min_support)
     print("Explanations")
+    explanations = sorted(explanations, key=lambda x:x[0], reverse=True)
     for rr, combination in explanations:
         print(rr, combination)
 
