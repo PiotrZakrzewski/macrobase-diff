@@ -4,10 +4,10 @@ from collections import defaultdict
 from itertools import permutations
 from pandas import DataFrame
 
-def get_combs(df: DataFrame, max_order: int, min_support: float) -> list:
+def get_combs(df: DataFrame, max_order: int, min_support: float, ignore: list = []) -> list:
     val_base = defaultdict(list)
     for column in df.columns:
-        if column == 'outlier':
+        if column in ignore:
             continue
         values = set(df[column])
         for value in values:
@@ -42,7 +42,7 @@ def prune(attr_combs):
     for comb in attr_combs:
         no_dupes = { key:value for key,value in comb}
         t = [ (key, value) for key,value in no_dupes.items()]
-        t = sorted(t, key=lambda x:x[0])
+        t = sorted(t, key=lambda x:(x[0], x[1]))
         t = tuple(t)
         if not t in pruned:
             pruned.append(t)

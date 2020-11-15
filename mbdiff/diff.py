@@ -13,7 +13,8 @@ def diff_file(path_to_df: str, query:DiffQuery, max_order:int, min_risk:float, m
 
 def diff(df: DataFrame, query:DiffQuery, max_order:int, min_risk:float, min_support:float) -> list:
     query.mark_groups(df)
-    combinations = get_combs(df, max_order, min_support)
+    ignored_cols = ["outlier"]
+    combinations = get_combs(df, max_order, min_support, ignored_cols)
     results = []
     for combination in combinations:
         rr = risk_ratio(combination, df)
