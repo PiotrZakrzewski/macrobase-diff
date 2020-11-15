@@ -21,7 +21,7 @@ Run the following command to get the output for the basic risk-ratio pipeline:
 python -m mbdiff --query 'num_col > 20.0' test.csv
 ```
 The output will contain two sections:
-- raws satisfying your query (outliers)
+- rows satisfying your query (outliers)
 - attribute combinations that are most associated with the selected outlier group (num_col above the value of 20.0) sorted by their risk ratio.
 ```
 Outliers:
