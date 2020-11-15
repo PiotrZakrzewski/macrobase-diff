@@ -1,34 +1,49 @@
+from pandas.core.frame import DataFrame
 from mbdiff.risk_ratio import calc_support
+from collections import defaultdict
+from itertools import permutations
+from pandas import DataFrame
 
-def get_combs(df, max_order, min_support):
-    combs = []
+def get_combs(df: DataFrame, max_order: int, min_support: float) -> list:
+    val_base = defaultdict(list)
     for column in df.columns:
         if column == 'outlier':
             continue
         values = set(df[column])
         for value in values:
-            comb = {column: value}
             if calc_support(df, column, value) >= min_support:
-                combs.append(comb)
-    for _ in range(max_order - 1):
-        combs_higher = []
-        checked = set()
-        for comb1 in combs:
-            for comb2 in combs:
-                if comb1 == comb2:
-                    continue
-                h = _dict_hash(comb1), _dict_hash(comb2)
-                if h in checked:
-                    continue
-                checked.add(h)
-                rev_h = h[1], h[0]
-                checked.add(rev_h)
-                comb = {**comb1, **comb2}
-                if len(comb.keys()) > len(comb1.keys()):
-                    combs_higher.append(comb)
-        combs = combs_higher
-    return combs
+                val_base[column].append(value)
+    single_attrs = []
+    for column in val_base:
+        for val in val_base[column]:
+            t = (column, val),
+            single_attrs.append(t)
+    def recurse(order, current):
+        if order == 0:
+            return current
+        if not current:
+            return recurse(order -1, single_attrs)
+        current_plus_one = []
+        for entry in current:
+            for single_attr in single_attrs:
+                extended_entry = entry + single_attr
+                current_plus_one.append(extended_entry)
+        return recurse(order -1, current_plus_one)
+    combs = recurse(max_order, [])
+    combs = prune(combs)
+    dicted = []
+    for comb in combs:
+        dicted_comb = {key:value for key,value in comb}
+        dicted.append(dicted_comb)
+    return dicted
 
-
-def _dict_hash(d):
-    return hash(tuple(sorted(d.items())))
+def prune(attr_combs):
+    pruned = []
+    for comb in attr_combs:
+        no_dupes = { key:value for key,value in comb}
+        t = [ (key, value) for key,value in no_dupes.items()]
+        t = sorted(t, key=lambda x:x[0])
+        t = tuple(t)
+        if not t in pruned:
+            pruned.append(t)
+    return pruned

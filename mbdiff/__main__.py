@@ -3,7 +3,7 @@ from mbdiff.diff_query import DiffQuery
 from mbdiff.diff import diff_file
 
 min_risk = 0.1
-min_support = 0.00
+min_support = 0.1
 max_order = 3
 
 def main():
