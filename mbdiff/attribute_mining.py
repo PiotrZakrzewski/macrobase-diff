@@ -1,7 +1,6 @@
 from pandas.core.frame import DataFrame
 from mbdiff.risk_ratio import calc_support
 from collections import defaultdict
-from itertools import permutations
 from pandas import DataFrame
 
 

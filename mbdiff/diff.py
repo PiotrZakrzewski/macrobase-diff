@@ -1,4 +1,3 @@
-from typing import Tuple
 from pandas import DataFrame, read_csv
 from mbdiff.diff_query import DiffQuery
 from mbdiff.risk_ratio import risk_ratio

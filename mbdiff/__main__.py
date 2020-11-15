@@ -1,4 +1,3 @@
-import sys
 import click
 from mbdiff.diff_query import DiffQuery
 from mbdiff.diff import diff_file
