@@ -13,11 +13,12 @@ from mbdiff.diff import diff_file
 def main(data, min_support, min_risk, max_order, query):
     metric, op, value = query.split()
     query = DiffQuery(metric, op, value)
-    explanations= diff_file(data, query, max_order, min_risk, min_support)
+    explanations = diff_file(data, query, max_order, min_risk, min_support)
     print("Explanations")
-    explanations = sorted(explanations, key=lambda x:x[0], reverse=True)
+    explanations = sorted(explanations, key=lambda x: x[0], reverse=True)
     for rr, combination in explanations:
         print(rr, combination)
+
 
 if __name__ == "__main__":
     main()
