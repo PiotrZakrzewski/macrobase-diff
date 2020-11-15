@@ -1,18 +1,19 @@
 import sys
+import click
 from mbdiff.diff_query import DiffQuery
 from mbdiff.diff import diff_file
 
-min_risk = 0.1
-min_support = 0.1
-max_order = 3
 
-def main():
-    path = sys.argv[1]
-    metric = sys.argv[2]
-    op = sys.argv[3]
-    value = sys.argv[4]
+@click.command()
+@click.argument("data", type=click.Path(exists=True))
+@click.option("--min-support", default=0.1)
+@click.option("--min-risk", default=0.1)
+@click.option("--max-order", default=3)
+@click.option("--query")
+def main(data, min_support, min_risk, max_order, query):
+    metric, op, value = query.split()
     query = DiffQuery(metric, op, value)
-    explanations= diff_file(path, query, max_order, min_risk, min_support)
+    explanations= diff_file(data, query, max_order, min_risk, min_support)
     print("Explanations")
     explanations = sorted(explanations, key=lambda x:x[0], reverse=True)
     for rr, combination in explanations:
