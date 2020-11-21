@@ -1,6 +1,7 @@
 import click
 from mbdiff.diff_query import DiffQuery
 from mbdiff.diff import diff_file
+from mbdiff.pretty_print import present_explanations
 
 
 @click.command()
@@ -15,8 +16,7 @@ def main(data, min_support, min_risk, max_order, query):
     explanations = diff_file(data, query, max_order, min_risk, min_support)
     print("Explanations")
     explanations = sorted(explanations, key=lambda x: x[0], reverse=True)
-    for rr, combination in explanations:
-        print(rr, combination)
+    print(present_explanations(explanations))
 
 
 if __name__ == "__main__":
