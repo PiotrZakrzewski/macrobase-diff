@@ -3,6 +3,8 @@ This is a mnimial implementation of an idea from [DIFF: A Relational Interface f
 
 In short: Given a table of numerical and categorical data and a query dividing the table into two groups (outliers/inliers) return attributes (categorical values) that are more common among the outliers (so called explanations).
 
+See a simple [case study using this prototype](https://pzakrzewski.hashnode.dev/macrobase-diff-case-study-1-imdb-movies).
+
 You can give it a quick try with provided `test.csv`:
 ```bash
         num_col,cat_col1,cat_col2
