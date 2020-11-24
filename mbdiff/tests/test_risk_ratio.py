@@ -1,11 +1,12 @@
 from mbdiff.risk_ratio import calc_support, risk_ratio
 import pytest
+from numpy import nan
 
 
 def test_risk_basic_null_1(df_outliers):
-    """Due to lack of cat2 in the inliers the result will be 0.0."""
+    """Due to lack of cat2 in the inliers the result will be NaN."""
     comb = {"cats": "cat2"}
-    assert risk_ratio(comb, df_outliers) == pytest.approx(0.0)
+    assert risk_ratio(comb, df_outliers) is nan
 
 
 def test_risk_basic_null_2(df_outliers):

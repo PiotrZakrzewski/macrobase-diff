@@ -1,4 +1,5 @@
 from pandas import DataFrame
+from numpy import nan
 
 
 def calc_support(df, column, value) -> float:
@@ -20,11 +21,11 @@ def risk_ratio(attr_combination: dict, df) -> float:
     top_d = a0 + ai
     denom_d = b0 + bi
     if top_d == 0 or denom_d == 0:
-        return 0
+        return nan
     top = a0 / top_d
     denom = b0 / denom_d
     if denom < 0.01:
-        return 0.0
+        return nan
     return top / denom
 
 

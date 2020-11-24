@@ -2,6 +2,7 @@ from pandas import DataFrame, read_csv
 from mbdiff.diff_query import DiffQuery
 from mbdiff.risk_ratio import risk_ratio
 from mbdiff.attribute_mining import get_combs
+from numpy import nan
 
 
 def diff_file(
@@ -10,7 +11,7 @@ def diff_file(
     max_order: int,
     min_risk: float,
     min_support: float,
-) -> list:
+):
     """Given a tab delimited file and a distinguishing metric return explanations."""
     df = read_csv(path_to_df)
     print("Outliers:")
@@ -20,7 +21,8 @@ def diff_file(
 
 def diff(
     df: DataFrame, query: DiffQuery, max_order: int, min_risk: float, min_support: float
-) -> list:
+):
+    """Return explanations, invalid and below support criterium attribute combinations."""
     query.mark_groups(df)
     ignored_cols = ["outlier"]
     # ignore all non categorical columns
@@ -28,9 +30,13 @@ def diff(
         if df.dtypes[i] != "object":
             ignored_cols.append(column)
     combinations = get_combs(df, max_order, min_support, ignored_cols)
-    results = []
+    results, invalid = [], []
     for combination in combinations:
         rr = risk_ratio(combination, df)
-        if rr >= min_risk:
-            results.append((rr, combination))
-    return results
+        res = (rr, combination)
+        if rr is nan or rr <= min_risk:
+            invalid.append(combination)
+        else:
+            results.append(res)
+
+    return results, invalid
