@@ -54,3 +54,6 @@ class DiffQuery:
             return "outlier" if self.row_matches(row) else "inlier"
 
         df["outlier"] = df.apply(fn, axis=1)
+
+class InvalidQuery(ValueError):
+    pass

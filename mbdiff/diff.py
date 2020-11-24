@@ -1,5 +1,5 @@
 from pandas import DataFrame, read_csv
-from mbdiff.diff_query import DiffQuery
+from mbdiff.diff_query import DiffQuery, InvalidQuery
 from mbdiff.risk_ratio import risk_ratio
 from mbdiff.attribute_mining import get_combs
 from numpy import nan
@@ -14,6 +14,8 @@ def diff_file(
 ):
     """Given a tab delimited file and a distinguishing metric return explanations."""
     df = read_csv(path_to_df)
+    if query.column not in df.columns:
+        raise InvalidQuery("Query column is not present in the data")
     print("Outliers:")
     print(query.apply(df).to_string())
     return diff(df, query, max_order, min_risk, min_support)
