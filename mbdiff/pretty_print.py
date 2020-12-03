@@ -13,10 +13,12 @@ def present_explanations(explanations: List) -> str:
     pres_df = DataFrame(pres_df)
     # NaN means "any value", represent as "-" just like in the original paper
     pres_df.fillna("-", inplace=True)
+    pres_df = pres_df.drop_duplicates()
     return tabulate(pres_df, headers="keys")
 
 
 def present_invalid(combinations: List[Dict]) -> str:
     """Pretty print invalid attr combinations."""
     pres_df = DataFrame(combinations)
+    pres_df = pres_df.drop_duplicates()
     return tabulate(pres_df, headers="keys")
