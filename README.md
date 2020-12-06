@@ -1,4 +1,4 @@
-# Macrobase Diff minimal implementation (WORK IN PROGRESS)
+# Macrobase Diff minimal implementation
 This is a mnimial implementation of an idea from [DIFF: A Relational Interface for Large-Scale Data Explanation F.Abuzaid et al 2018](https://cs.stanford.edu/~matei/papers/2019/vldb_macrobase_diff.pdf).
 
 In short: Given a table of numerical and categorical data and a query dividing the table into two groups (outliers/inliers) return attributes (categorical values) that are more common among the outliers (so called explanations).
@@ -31,10 +31,20 @@ Outliers:
 0     99.8        B        A
 8    109.0        B        B
 Explanations
-8.0 {'cat_col1': 'B', 'cat_col2': 'B'}
-3.5 {'cat_col1': 'B', 'cat_col2': 'A'}
-3.5 {'cat_col2': 'B'}
-0.2857142857142857 {'cat_col2': 'A'}
+      score  cat_col1    cat_col2
+--  -------  ----------  ----------
+ 0      8    B           B
+ 1      3.5  -           B
+ 2      3.5  B           A
+Attribute combinations below thresholds
+    cat_col1
+--  ----------
+ 0  B
 ```
 
-Please mind that this is still very much work in progress ..
+## Further Work
+The original Macrobase Diff provides more contributions:
+- Streaming implementation
+- SQL-like REPL interface (to showcase how it could be implemented within an SQL client)
+- Plenty of optimizations
+All of the above are worthwhile for follow-up work in this project.
