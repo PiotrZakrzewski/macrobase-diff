@@ -20,3 +20,6 @@ toml==0.10.2
 typed-ast==1.4.1
 typing-extensions==3.7.4.3
 efficient-apriori==1.1.1
+prompt_toolkit==3.0.8
+Pygments==2.7.2
+antlr4-python3-runtime==4.9
